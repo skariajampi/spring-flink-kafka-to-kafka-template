@@ -1,0 +1,35 @@
+spring:
+  main:
+    banner-mode: off
+
+kafka-config:
+  source-process-some-record-command-topic-name: process-some-record-command-topic
+  source-process-some-record-command-group-name: process-some-record-command-group
+  source-update-person-command-topic-name: update-person-command-topic
+  source-update-person-command-group-name: update-person-command-group
+  source-add-list-command-topic-name: add-list-command-topic
+  source-add-list-command-group-name: add-list-command-group
+  sink-some-record_enriched-event-topic-name: some-record-enriched-event-topic
+  sink-person-updated-event-topic-name: person-updated-event-topic
+  sink-list-added-event-topic-name: list-added-event-topic
+  security:
+    protocol: SASL_SSL
+    sasl-mechanism: AWS_MSK_IAM
+    sasl-jaas-config: software.amazon.msk.auth.iam.IAMLoginModule required;
+    sasl-client-callback-handler-class: software.amazon.msk.auth.iam.IAMClientCallbackHandler
+
+flink-config:
+  checkpoint-interval: 30000
+  min-pause-between-checkpoints: 3000
+  checkpoint-timeout: 60000
+  parallelism: 12
+  max-parallelism: 20
+  disable-generic-types: false
+  list-state-ttl-value: 28
+
+logging:
+  level:
+    root: info
+    org.example: info
+    org.apache.flink: info
+    org.apache.kafka: info

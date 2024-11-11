@@ -1,0 +1,13 @@
+kafka-config:
+  bootstrap-servers: localhost:9092
+  schema-registry-url: http://localhost:8081
+
+flink-config:
+  checkpoint-interval: 5000
+  min-pause-between-checkpoints: 500
+  checkpoint-timeout: 60000
+  parallelism: 1
+  max-parallelism: 6
+  disable-generic-types: false
+  bind-port: "9083"
+  checkpoint-location: "s3a://checkpoint-local/checkpoints/some-record-command/_entropy_"
