@@ -9,7 +9,8 @@ import org.apache.avro.specific.SpecificRecord;
 
 import java.io.Serializable;
 
-public abstract class AbstractIdentifierCommandHandler<T extends SpecificRecord, DE extends SpecificRecord> implements CommandHandler<DomainAggregateStateRecord, Identifier, CommandRecord, CommandType, DomainEventRecord>, Serializable {
+public abstract class AbstractIdentifierCommandHandler<T extends SpecificRecord, DE extends SpecificRecord>
+        implements CommandHandler<DomainAggregateStateRecord, Identifier, CommandRecord, CommandType, DomainEventRecord>, Serializable {
 
     @Override
     public CommandHandlerResult<Identifier, DomainEventRecord, DomainAggregateStateRecord> handleCommand(DomainAggregateStateRecord currentState,
