@@ -1,10 +1,12 @@
 package org.example.command;
 
 import com.skaria.avro.model.ErrorRecord;
+import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class CommandHandlerResult<K, V, STATE> {
 
     private final CommandHandlerResulType type;

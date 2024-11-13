@@ -1,10 +1,18 @@
 package org.example.config;
 
+import com.skaria.avro.model.Identifier;
+import com.skaria.avro.model.Person;
+import com.skaria.avro.model.SomeList;
+import com.skaria.avro.model.aggregate.domain.DomainEventRecord;
+import org.apache.flink.api.common.state.MapStateDescriptor;
+import org.apache.flink.api.common.state.ValueStateDescriptor;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.GlobalConfiguration;
 import org.apache.flink.configuration.MemorySize;
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.util.OutputTag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -60,4 +68,19 @@ public class FlinkConfig implements FlinkBaseConfig{
         return localEnvironmentWithWebUI;
     }
 
+    @Bean
+    public MapStateDescriptor<String, SomeList> someListMapStateDescriptor(){
+        return new MapStateDescriptor<>("someListState", String.class, SomeList.class);
+
+    }
+
+    @Bean
+    public ValueStateDescriptor<Person> personValueStateDescriptor(){
+        return new ValueStateDescriptor<>("personState", Person.class);
+    }
+
+    @Bean
+    public OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag(){
+        return new OutputTag<>("some-record-match");
+    }
 }
