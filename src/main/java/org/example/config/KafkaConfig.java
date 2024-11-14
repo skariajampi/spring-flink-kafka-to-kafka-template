@@ -41,10 +41,10 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaSink<Tuple2<Identifier, DomainEventRecord>> kafkaSinkProcessSomeRecordEvent(){
+    public KafkaSink<Tuple2<Identifier, DomainEventRecord>> kafkaSinkSomeRecordUpdatedEventRecord(){
         KafkaSinkBuilder<Tuple2<Identifier, DomainEventRecord>> kafkaSinkBuilder =
                 defaultKafkaSinkEventBuilder(kafkaConfigData.getBootstrapServers(),
-                                                 kafkaConfigData.getSourceProcessSomeRecordCommandTopicName(),
+                                                 kafkaConfigData.getSinkSomeRecordEnrichedEventTopicName(),
                                                  kafkaConfigData.getSchemaRegistryUrl());
         //for msf set security properties
         //kafkaSinkBuilder.setProperties()
