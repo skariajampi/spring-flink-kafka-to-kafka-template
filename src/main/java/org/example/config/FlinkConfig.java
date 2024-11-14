@@ -3,6 +3,7 @@ package org.example.config;
 import com.skaria.avro.model.Identifier;
 import com.skaria.avro.model.Person;
 import com.skaria.avro.model.SomeList;
+import com.skaria.avro.model.SomeListId;
 import com.skaria.avro.model.aggregate.domain.DomainEventRecord;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.state.ValueStateDescriptor;

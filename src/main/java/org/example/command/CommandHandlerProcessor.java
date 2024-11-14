@@ -3,6 +3,7 @@ package org.example.command;
 import com.skaria.avro.model.Identifier;
 import com.skaria.avro.model.Person;
 import com.skaria.avro.model.SomeList;
+import com.skaria.avro.model.SomeListId;
 import com.skaria.avro.model.aggregate.domain.CommandRecord;
 import com.skaria.avro.model.aggregate.domain.CommandType;
 import com.skaria.avro.model.aggregate.domain.DomainAggregateStateRecord;
@@ -36,7 +37,10 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
     private final ValueStateDescriptor<Person> personValueStateDescriptor;
     private final OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag;
 
-    public CommandHandlerProcessor(List<CommandHandler<DomainAggregateStateRecord, Identifier, CommandRecord, CommandType, DomainEventRecord>> commandHandlerList, MapStateDescriptor<String, SomeList> someListMapStateDescriptor, ValueStateDescriptor<Person> personValueStateDescriptor, OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag) {
+    public CommandHandlerProcessor(List<CommandHandler<DomainAggregateStateRecord, Identifier, CommandRecord, CommandType, DomainEventRecord>>
+                                           commandHandlerList, MapStateDescriptor<String, SomeList> someListMapStateDescriptor,
+                                   ValueStateDescriptor<Person> personValueStateDescriptor, OutputTag<Tuple2<Identifier, DomainEventRecord>>
+                                           someRecordMatchOutputTag) {
         this.commandHandlerList = commandHandlerList;
         this.someListMapStateDescriptor = someListMapStateDescriptor;
         this.personValueStateDescriptor = personValueStateDescriptor;
@@ -73,8 +77,8 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
         }
 
         if(commandRecord.getCommandType().name().equals(CommandType.REMOVE_IDENTIFIER_FROM_SOME_LIST_COMMAND.name())){
-            IdentifierRemovedFromListEventRecord event = result.getValue().getEvent();
-            this.someListFlinkState.remove(event.getId());
+            IdentifierRemovedFromListEventRecord event = (IdentifierRemovedFromListEventRecord) result.getValue().getEvent();
+            this.someListFlinkState.remove(event.getSomeListId().toString());
         }
 
         if(commandRecord.getCommandType().name().equals(CommandType.UPDATE_PERSON_COMMAND.name())){

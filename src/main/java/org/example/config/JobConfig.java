@@ -3,6 +3,7 @@ package org.example.config;
 import com.skaria.avro.model.Identifier;
 import com.skaria.avro.model.Person;
 import com.skaria.avro.model.SomeList;
+import com.skaria.avro.model.SomeListId;
 import com.skaria.avro.model.aggregate.domain.CommandRecord;
 import com.skaria.avro.model.aggregate.domain.CommandType;
 import com.skaria.avro.model.aggregate.domain.DomainAggregateStateRecord;
@@ -29,7 +30,8 @@ public class JobConfig {
     private final OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag;
 
 
-    public JobConfig(MapStateDescriptor<String, SomeList> someListMapStateDescriptor, ValueStateDescriptor<Person> personValueStateDescriptor, OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag) {
+    public JobConfig(MapStateDescriptor<String, SomeList> someListMapStateDescriptor, ValueStateDescriptor<Person> personValueStateDescriptor,
+                     OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag) {
         this.someListMapStateDescriptor = someListMapStateDescriptor;
         this.personValueStateDescriptor = personValueStateDescriptor;
         this.someRecordMatchOutputTag = someRecordMatchOutputTag;
