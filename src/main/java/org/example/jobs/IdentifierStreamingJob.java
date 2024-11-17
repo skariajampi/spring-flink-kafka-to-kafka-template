@@ -33,7 +33,7 @@ public class IdentifierStreamingJob {
     }
 
     public void buildJobTopology(StreamExecutionEnvironment streamExecutionEnvironment){
-        log.info(String.format("Bootstrap server: {}", kafkaConfigData.getBootstrapServers()));
+        log.info("Bootstrap server: {}", kafkaConfigData.getBootstrapServers());
         DataStreamSource<Tuple2<Identifier, CommandRecord>> processSomeRecordCommandStream = streamExecutionEnvironment.fromSource(kafkaSourceProcessSomeRecordCommand, WatermarkStrategy.noWatermarks(), "Process SomeRecord Command");
 
         SingleOutputStreamOperator<Tuple2<Identifier, DomainEventRecord>> processedCommands = processSomeRecordCommandStream.keyBy(command -> command.f0)
