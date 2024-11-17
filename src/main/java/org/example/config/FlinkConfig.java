@@ -42,7 +42,7 @@ public class FlinkConfig implements FlinkBaseConfig{
     public StreamExecutionEnvironment streamExecutionEnvironmentLocal(){
         StreamExecutionEnvironment localStreamExecEnv = buildLocalStreamExecEnv();
         defaultEnvConfig(localStreamExecEnv, flinkConfigData);
-        localStreamExecEnv.getCheckpointConfig().setCheckpointStorage(flinkConfigData.getCheckpointLocation());
+        //localStreamExecEnv.getCheckpointConfig().setCheckpointStorage(flinkConfigData.getCheckpointLocation());
         return localStreamExecEnv;
     }
 
@@ -53,13 +53,13 @@ public class FlinkConfig implements FlinkBaseConfig{
         flinkConfig.set(TASK_HEAP_MEMORY, MemorySize.ofMebiBytes(1024));
         flinkConfig.set(TASK_OFF_HEAP_MEMORY, MemorySize.ofMebiBytes(512));
         flinkConfig.set(MANAGED_MEMORY_SIZE, MemorySize.ofMebiBytes(1024));
-        flinkConfig.setString("s3.entropy.key", "_entropy_");
+        /*flinkConfig.setString("s3.entropy.key", "_entropy_");
         flinkConfig.setString("s3.entropy.length", "8");
         flinkConfig.setString("s3.endpoint", "http://127.0.0.1:9000");
         flinkConfig.setString("s3.entropy.key", "_entropy_");
         flinkConfig.setString("s3.path-style", "true");
         flinkConfig.setString("s3.access.key", "minio");
-        flinkConfig.setString("s3.secret.key", "minio123");
+        flinkConfig.setString("s3.secret.key", "minio123");*/
 
         FileSystem.initialize(GlobalConfiguration.loadConfiguration(flinkConfig));
         StreamExecutionEnvironment localEnvironmentWithWebUI = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(flinkConfig);
@@ -82,6 +82,6 @@ public class FlinkConfig implements FlinkBaseConfig{
 
     @Bean
     public OutputTag<Tuple2<Identifier, DomainEventRecord>> someRecordMatchOutputTag(){
-        return new OutputTag<>("some-record-match");
+        return new OutputTag<>("some-record-match"){};
     }
 }

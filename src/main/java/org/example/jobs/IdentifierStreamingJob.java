@@ -39,7 +39,7 @@ public class IdentifierStreamingJob {
         SingleOutputStreamOperator<Tuple2<Identifier, DomainEventRecord>> processedCommands = processSomeRecordCommandStream.keyBy(command -> command.f0)
                 .process(commandHandlerProcessor)
                 .name("ProcessSomeRecordCommand")
-                .setUidHash("")
+                .setUidHash("95e1c2e1e025359106fe8f6d0ee98972")
                 .setDescription("ProcessSomeRecordCommand Processor");
 
         processedCommands

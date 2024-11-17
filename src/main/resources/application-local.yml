@@ -10,4 +10,4 @@ flink-config:
   max-parallelism: 6
   disable-generic-types: false
   bind-port: "9083"
-  checkpoint-location: "s3a://checkpoint-local/checkpoints/some-record-command/_entropy_"
+  #checkpoint-location: "s3a://checkpoint-local/checkpoints/some-record-command/_entropy_"

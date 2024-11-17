@@ -13,7 +13,7 @@
         <maven.compiler.source>${target.java.version}</maven.compiler.source>
         <maven.compiler.target>${target.java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <main.class>org.example.Main</main.class>
+        <main.class>org.example.IdentifierMatchStreamingJobApplication</main.class>
         <scala.binary.version>2.12</scala.binary.version>
         <spring.boot.version>2.7.17</spring.boot.version>
         <avro.version>1.11.3</avro.version>
@@ -100,7 +100,7 @@
             <version>1.2.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-s3-fs-hadoop</artifactId>
             <version>${flink.version}</version>
@@ -145,7 +145,7 @@
                 </exclusion>
             </exclusions>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -407,7 +407,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <execuatble>docker-compose</execuatble>
+                    <executable>docker-compose</executable>
                 </configuration>
                 <executions>
                     <execution>
