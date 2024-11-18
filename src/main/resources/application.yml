@@ -30,6 +30,6 @@ flink-config:
 logging:
   level:
     root: info
-    org.example: info
+    org.example: debug
     org.apache.flink: info
     org.apache.kafka: info

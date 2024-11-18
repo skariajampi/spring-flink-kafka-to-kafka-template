@@ -72,7 +72,7 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
             }
         }
 
-        if(commandRecord.getCommandType().name().equals(CommandType.ADD_IDENTIFIER_TO_SOME_LIST_COMMAND.name())){
+        /*if(commandRecord.getCommandType().name().equals(CommandType.ADD_IDENTIFIER_TO_SOME_LIST_COMMAND.name())){
             this.someListFlinkState.putAll(result.getNewState().getSomeList());
         }
 
@@ -83,7 +83,7 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
 
         if(commandRecord.getCommandType().name().equals(CommandType.UPDATE_PERSON_COMMAND.name())){
             this.personFlinkState.update(result.getNewState().getPerson());
-        }
+        }*/
 
     }
 

@@ -29,8 +29,12 @@ public class FlinkKafkaAvroDeserialization<K extends SpecificRecord, V extends S
 
     @Override
     public void deserialize(ConsumerRecord<byte[], byte[]> consumerRecord, Collector<Tuple2<K, V>> collector) throws IOException {
-        collector.collect(Tuple2.of(deserializationSchemaKey.deserialize(consumerRecord.key()),
-                                                                         deserializationSchemaValue.deserialize(consumerRecord.value())));
+        Tuple2<K, V> kvTuple2 = Tuple2.of(deserializationSchemaKey.deserialize(consumerRecord.key()),
+                                          deserializationSchemaValue.deserialize(consumerRecord.value()));
+        System.out.println("inside deserialize...................................... " );
+        System.out.println("consumerRecord.key() = = = " + new String(consumerRecord.key()));
+        System.out.println("kvTuple2 = = = " + kvTuple2.f1);
+        collector.collect(kvTuple2);
     }
 
     @Override

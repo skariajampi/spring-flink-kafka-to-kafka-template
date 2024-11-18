@@ -36,6 +36,9 @@ public class IdentifierStreamingJob {
         log.info("Bootstrap server: {}", kafkaConfigData.getBootstrapServers());
         DataStreamSource<Tuple2<Identifier, CommandRecord>> processSomeRecordCommandStream = streamExecutionEnvironment.fromSource(kafkaSourceProcessSomeRecordCommand, WatermarkStrategy.noWatermarks(), "Process SomeRecord Command");
 
+        processSomeRecordCommandStream
+                .print();
+
         SingleOutputStreamOperator<Tuple2<Identifier, DomainEventRecord>> processedCommands = processSomeRecordCommandStream.keyBy(command -> command.f0)
                 .process(commandHandlerProcessor)
                 .name("ProcessSomeRecordCommand")
