@@ -71,7 +71,7 @@ public class KafkaConfig {
                                                                                                    String schemaRegistryUrl){
         return KafkaSink.<Tuple2<Identifier, DomainEventRecord>>builder()
                 .setBootstrapServers(bootStrapServer)
-                .setRecordSerializer(new FlinkKafkaAvroSerialization<>(Identifier.class, DomainEventRecord.class, sourceTopicName, schemaRegistryUrl));
+                .setRecordSerializer(new FlinkKafkaAvroSerialization<>(Identifier.class, DomainEventRecord.class, schemaRegistryUrl, sourceTopicName));
     }
 
 }

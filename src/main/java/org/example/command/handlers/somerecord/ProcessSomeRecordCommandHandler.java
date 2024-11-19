@@ -10,7 +10,8 @@ import com.skaria.avro.model.aggregate.domain.DomainAggregateStateRecord;
 import com.skaria.avro.model.aggregate.domain.DomainEventRecord;
 import com.skaria.avro.model.aggregate.domain.EventType;
 import com.skaria.avro.model.aggregate.domain.ProcessSomeRecordCommandRecord;
-import com.skaria.avro.model.aggregate.domain.SomeRecordEnrichedEventRecord;
+import com.skaria.avro.model.aggregate.domain.SomeRecordUpdatedEventRecord;
+import com.skaria.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.example.command.AbstractIdentifierCommandHandler;
 
@@ -19,15 +20,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
-public class ProcessSomeRecordCommandHandler extends AbstractIdentifierCommandHandler<ProcessSomeRecordCommandRecord, SomeRecordEnrichedEventRecord> {
+public class ProcessSomeRecordCommandHandler extends AbstractIdentifierCommandHandler<ProcessSomeRecordCommandRecord,
+        SomeRecordUpdatedEventRecord> {
 
     @Override
     protected DomainEventRecord getSuccessEvent(ProcessSomeRecordCommandRecord command, CommandRecord commandRecord,
                                                 DomainAggregateStateRecord currentState) {
         SomeRecord someRecord = command.getSomeRecord();
 
-        SomeRecordEnrichedEventRecord.Builder someRecordEnrichedEventRecordBuilder = SomeRecordEnrichedEventRecord.newBuilder()
-                .setSomeRecord(someRecord)
+        SomeRecordUpdatedEventRecord.Builder someRecordEnrichedEventRecordBuilder =
+                SomeRecordUpdatedEventRecord.newBuilder()
+                //.setSomeRecord(someRecord)
                 .setEventId(UUID.randomUUID())
                 .setCreationTimestamp("");
 
@@ -35,21 +38,21 @@ public class ProcessSomeRecordCommandHandler extends AbstractIdentifierCommandHa
         Person person = currentState.getPerson();
 
         if(Objects.nonNull(someList) && !someList.isEmpty()){
-            someRecordEnrichedEventRecordBuilder.setMatches(someList);
+            //someRecordEnrichedEventRecordBuilder.setMatches(someList);
         }
 
         if(Objects.nonNull(person)){
-            someRecordEnrichedEventRecordBuilder.setPerson(person);
+            //someRecordEnrichedEventRecordBuilder.setPerson(person);
         }
 
         DomainEventRecord domainEventRecord = DomainEventRecord.newBuilder()
                 .setIdentifier(Identifier.newBuilder().setIdentifier(someRecord.getIdentifier().getIdentifier()).build())
                 .setEventType(EventType.SOME_RECORD_ENRICHED_EVENT)
-                .setCreationTimestamp("")
+                .setCreationTimestamp(DateUtils.nowStandardUtc())
                 .setEvent(someRecordEnrichedEventRecordBuilder.build())
                 .build();
 
-        if(Objects.nonNull(domainEventRecord)){
+        if(!Objects.nonNull(domainEventRecord)){
             log.error("Process Some Record Domain Event cannot be null!");
             throw new RuntimeException("Process Some Record Domain Event cannot be null!");
         }
@@ -57,13 +60,13 @@ public class ProcessSomeRecordCommandHandler extends AbstractIdentifierCommandHa
     }
 
     @Override
-    protected DomainAggregateStateRecord reduceState(SomeRecordEnrichedEventRecord domainEvent, DomainEventRecord domainEventRecord,
+    protected DomainAggregateStateRecord reduceState(SomeRecordUpdatedEventRecord domainEvent, DomainEventRecord domainEventRecord,
                                                      DomainAggregateStateRecord currentState) {
         return currentState;
     }
 
     @Override
     public boolean supports(CommandType commandType) {
-        return false;
+        return commandType.equals(CommandType.PROCESS_SOME_RECORD_COMMAND);
     }
 }

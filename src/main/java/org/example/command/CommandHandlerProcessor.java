@@ -3,12 +3,11 @@ package org.example.command;
 import com.skaria.avro.model.Identifier;
 import com.skaria.avro.model.Person;
 import com.skaria.avro.model.SomeList;
-import com.skaria.avro.model.SomeListId;
 import com.skaria.avro.model.aggregate.domain.CommandRecord;
 import com.skaria.avro.model.aggregate.domain.CommandType;
 import com.skaria.avro.model.aggregate.domain.DomainAggregateStateRecord;
 import com.skaria.avro.model.aggregate.domain.DomainEventRecord;
-import com.skaria.avro.model.aggregate.domain.IdentifierRemovedFromListEventRecord;
+import com.skaria.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
@@ -84,7 +83,7 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
         if(commandRecord.getCommandType().name().equals(CommandType.UPDATE_PERSON_COMMAND.name())){
             this.personFlinkState.update(result.getNewState().getPerson());
         }*/
-
+        collector.collect(new Tuple2<>(identifier, result.getValue()));
     }
 
     private static CommandHandlerResult<Identifier, DomainEventRecord, DomainAggregateStateRecord>
@@ -102,6 +101,8 @@ public class CommandHandlerProcessor extends KeyedProcessFunction<Identifier, Tu
         DomainAggregateStateRecord domainAggregateStateRecord;
         try{
             DomainAggregateStateRecord.Builder domainAggregateStateRecordBuilder = DomainAggregateStateRecord.newBuilder()
+                    .setCreationTimestamp(DateUtils.nowStandardUtc())
+                    .setLastUpdatedTimestamp(DateUtils.nowStandardUtc())
                     .setPerson(null)
                     .setSomeList(null);
             if(someListFlinkState != null){
