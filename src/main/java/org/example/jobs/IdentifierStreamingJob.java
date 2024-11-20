@@ -3,6 +3,7 @@ package org.example.jobs;
 import com.skaria.avro.model.Identifier;
 import com.skaria.avro.model.aggregate.domain.CommandRecord;
 import com.skaria.avro.model.aggregate.domain.DomainEventRecord;
+import com.skaria.avro.model.aggregate.domain.EventType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -54,7 +55,7 @@ public class IdentifierStreamingJob {
                 .name("Debug Sink");
 
         processedCommands
-                //.filter(processedCommand -> processedCommand.f1.getEventType().equals(EventType.SOME_RECORD_ENRICHED_EVENT))
+                .filter(processedCommand -> processedCommand.f1.getEventType().equals(EventType.SOME_RECORD_ENRICHED_EVENT))
                 .sinkTo(kafkaSinkProcessSomeRecordEvent)
                 .name("P")
                 .setDescription("");
