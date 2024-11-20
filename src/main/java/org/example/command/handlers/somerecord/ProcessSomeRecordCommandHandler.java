@@ -30,7 +30,7 @@ public class ProcessSomeRecordCommandHandler extends AbstractIdentifierCommandHa
 
         SomeRecordUpdatedEventRecord.Builder someRecordEnrichedEventRecordBuilder =
                 SomeRecordUpdatedEventRecord.newBuilder()
-                //.setSomeRecord(someRecord)
+                .setSomeRecord(someRecord)
                 .setEventId(UUID.randomUUID())
                 .setCreationTimestamp("");
 
